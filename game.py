@@ -33,6 +33,7 @@ def get_text_question(user_id):
     index_question = db.get_index_question(user_id)
     list_ques = list(questions)
     text_ques = list_ques[index_question]
+
     return text_ques
 
 
