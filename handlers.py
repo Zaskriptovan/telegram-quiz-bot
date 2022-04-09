@@ -16,8 +16,7 @@ async def start_game(message: types.Message):
                                  reply_markup=buttons.endMenu)
 
         elif message.text == 'Показать таблицу рекордов':
-            for i in db.get_table_records():
-                await message.answer(i, reply_markup=buttons.endMenu)
+            await message.answer(db.get_table_records(), reply_markup=buttons.endMenu)
 
         elif message.text == 'Сыграть заново':
             await message.answer('Счет обнулён. Желаете сыграть еще раз?', db.reset_score(message.from_user.id),
