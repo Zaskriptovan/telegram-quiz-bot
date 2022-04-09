@@ -54,8 +54,10 @@ class Database:
             self.cursor.execute(""" SELECT name, score FROM users ORDER BY score DESC""")  # сортировка по убыванию
             results = self.cursor.fetchall()
             table_records = ''
+            num_user = 1
             for i in results:
-                table_records += i[0] + ' ' + str(i[1]) + '\n'
+                table_records += str(num_user) + '.' + i[0] + ' ' + str(i[1]) + '\n'
+                num_user += 1
             return table_records
 
 
