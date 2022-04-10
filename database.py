@@ -56,7 +56,7 @@ class Database:
             table_records = ''
             num_user = 1
             for i in results:
-                table_records += str(num_user) + '.' + i[0] + ' ' + str(i[1]) + '\n'
+                table_records += f'{num_user}. {i[0]} : {i[1]}\n'
                 num_user += 1
             return table_records
 
