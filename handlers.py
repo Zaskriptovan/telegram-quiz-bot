@@ -1,10 +1,11 @@
 from aiogram import types, Dispatcher
+
 from database import db
 import buttons
-import game
+import quiz
 
 
-async def send_welcome(message: types.Message):                 # (commands=['start'])
+async def send_welcome(message: types.Message):
     await message.answer('Привет! Готов проверить знания?', reply_markup=buttons.mainMenu)
     db.add_user(message.from_user.id, message.from_user.full_name)
 
@@ -23,19 +24,19 @@ async def start_game(message: types.Message):
                                  db.reset_index_question(message.from_user.id), reply_markup=buttons.mainMenu)
 
         elif message.text == 'Начать викторину':
-            await message.answer(game.generate_question(message.from_user.id)['text'],
-                                 reply_markup=game.generate_question(message.from_user.id)['keyboard'])
+            await message.answer(quiz.generate_question(message.from_user.id)['text'],
+                                 reply_markup=quiz.generate_question(message.from_user.id)['keyboard'])
 
-        elif message.text == game.get_correct_answer(message.from_user.id):
+        elif message.text == quiz.get_correct_answer(message.from_user.id):
             db.update_score(message.from_user.id)
             db.update_index_question(message.from_user.id)
-            await message.answer(game.generate_question(message.from_user.id)['text'],
-                                 reply_markup=game.generate_question(message.from_user.id)['keyboard'])
+            await message.answer(quiz.generate_question(message.from_user.id)['text'],
+                                 reply_markup=quiz.generate_question(message.from_user.id)['keyboard'])
 
-        elif message.text in game.get_choices(message.from_user.id):
+        elif message.text in quiz.get_choices(message.from_user.id):
             db.update_index_question(message.from_user.id)
-            await message.answer(game.generate_question(message.from_user.id)['text'],
-                                 reply_markup=game.generate_question(message.from_user.id)['keyboard'])
+            await message.answer(quiz.generate_question(message.from_user.id)['text'],
+                                 reply_markup=quiz.generate_question(message.from_user.id)['keyboard'])
 
         else:
             await message.answer('Нет такого варианта')
